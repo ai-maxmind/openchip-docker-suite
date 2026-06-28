@@ -1,0 +1,28 @@
+services:
+  eda:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BASE_IMAGE: hpretl/iic-osic-tools:latest
+    image: openchip-eda:latest
+    container_name: openchip-eda
+    stdin_open: true
+    tty: true
+    shm_size: "8gb"
+    working_dir: /workspace
+    environment:
+      - PDK_ROOT=/foss/pdks
+      - DESIGN_HOME=/foss/designs
+      - WORKSPACE=/workspace
+      # Uncomment DISPLAY lines on native Linux with X11 if you want GUI apps:
+      # - DISPLAY=${DISPLAY}
+      # - XAUTHORITY=/tmp/.docker.xauth
+    volumes:
+      - ./designs:/foss/designs
+      - ./workspace:/workspace
+      - ./examples:/workspace/examples
+      # Uncomment on native Linux with X11:
+      # - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+    command: ["/bin/bash", "-l"]
