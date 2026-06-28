@@ -1,0 +1,19 @@
+* Behavioral LDO demo for ngspice
+.param vin=3.3 vref=1.2
+VIN in 0 {vin}
+VREF ref 0 {vref}
+R1 out fb 100k
+R2 fb 0 100k
+EA gate 0 VALUE = { 20*(V(ref)-V(fb)) + 1.0 }
+* voltage-controlled resistor approximation for pass device
+Gpass in out VALUE = { max(0, min(0.1, (V(gate)-0.8)*0.05)) * V(in,out) }
+COUT out 0 1u
+RLOAD out 0 2k
+Istep out 0 PULSE(0 0.5m 1m 1u 1u 1m 2m)
+.tran 1u 5m
+.control
+run
+plot v(in) v(out) v(fb) v(gate)
+write ldo.raw
+.endc
+.end

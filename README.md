@@ -125,3 +125,33 @@ docs/CHIP_DESIGN_GUIDE.md
 docs/TOOL_MASTERY_GUIDE.md
 docs/USER_GUIDE.md
 ```
+
+
+## Chip Recipes — code mẫu xây từng loại chip
+
+Thư mục `chip-recipes/` chứa các template RTL/SPICE/Makefile/OpenLane config cho từng nhóm chip:
+
+- Counter/GPIO digital ASIC
+- UART/GPIO/Timer peripheral chip
+- PWM motor-control chip
+- SPI/I2C sensor-interface chip
+- Tiny MCU educational chip
+- Vector MAC AI/DSP accelerator chip
+- CRC streaming datapath chip
+- SRAM macro integration chip
+- Analog comparator block
+- Simple LDO/PMIC behavioral block
+- Mixed-signal SAR ADC controller
+
+Xem hướng dẫn chính:
+
+```bash
+cat chip-recipes/README.md
+cat chip-recipes/BUILD_EACH_CHIP_TYPE_GUIDE.md
+```
+
+Chạy smoke test trong container:
+
+```bash
+bash scripts/run-chip-recipes-smoke-test.sh /workspace/chip-recipes
+```

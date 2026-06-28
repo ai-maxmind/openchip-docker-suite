@@ -1,0 +1,24 @@
+* Behavioral comparator demo for ngspice
+* Replace this with transistor-level comparator using SKY130/GF180/IHP models.
+
+.param vdd=1.8
+VDD vdd 0 {vdd}
+VSS vss 0 0
+VINP inp 0 PULSE(0.2 1.6 1u 10n 10n 2u 4u)
+VINN inn 0 0.9
+
+* High-gain voltage-controlled source, output limited by diode clamp approximation
+EGAIN mid 0 VALUE = { 1000*(V(inp)-V(inn)) }
+RLOAD mid out 1k
+DHI out vdd DCLAMP
+DLO 0 out DCLAMP
+.model DCLAMP D(IS=1e-15 N=1)
+COUT out 0 20f
+
+.tran 1n 8u
+.control
+run
+plot v(inp) v(inn) v(out)
+write comparator.raw
+.endc
+.end

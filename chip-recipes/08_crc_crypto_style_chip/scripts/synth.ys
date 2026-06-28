@@ -1,0 +1,6 @@
+read_verilog rtl/*.v
+hierarchy -check -top top
+synth -top top
+stat
+write_verilog build/top_synth.v
+write_json build/top.json

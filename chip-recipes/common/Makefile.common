@@ -1,0 +1,37 @@
+# Common Makefile fragment for OpenChip recipes
+# Works inside the OpenChip Docker container.
+
+TOP ?= top
+RTL_DIR ?= rtl
+SIM_DIR ?= sim
+BUILD_DIR ?= build
+RTL ?= $(wildcard $(RTL_DIR)/*.v)
+TB ?= $(SIM_DIR)/$(TOP)_tb.v
+YOSYS_SCRIPT ?= scripts/synth.ys
+
+.PHONY: all lint sim synth clean show help
+
+all: lint sim synth
+
+lint:
+	@mkdir -p $(BUILD_DIR)
+	verilator --lint-only -Wall $(RTL)
+
+sim:
+	@mkdir -p $(BUILD_DIR)
+	iverilog -g2012 -Wall -o $(BUILD_DIR)/$(TOP)_tb.vvp $(RTL) $(TB)
+	vvp $(BUILD_DIR)/$(TOP)_tb.vvp
+
+synth:
+	@mkdir -p $(BUILD_DIR)
+	yosys -q -s $(YOSYS_SCRIPT)
+	@echo "Synthesis reports are in $(BUILD_DIR)/"
+
+show:
+	@if [ -f $(BUILD_DIR)/$(TOP).json ]; then yosys -p "read_json $(BUILD_DIR)/$(TOP).json; show -format dot -prefix $(BUILD_DIR)/$(TOP) $(TOP)"; else echo "Run make synth first"; fi
+
+clean:
+	rm -rf $(BUILD_DIR) *.vcd sim/*.vcd
+
+help:
+	@echo "Targets: make lint | make sim | make synth | make all | make clean"

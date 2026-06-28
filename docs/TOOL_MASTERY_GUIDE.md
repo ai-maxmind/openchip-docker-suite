@@ -1,9 +1,5 @@
 # TOOL MASTERY GUIDE — HƯỚNG DẪN THÀNH THẠO BỘ STACK THIẾT KẾ CHIP MÃ NGUỒN MỞ
 
-> Phiên bản: 1.0  
-> Bộ stack: OpenChip Docker Suite  
-> Mục tiêu: từ người mới dùng tool đến mức tự xây được flow RTL → GDSII, analog/mixed-signal cơ bản, debug DRC/LVS/STA và tổ chức project chip nghiêm túc.
-
 Bộ stack này không phải là một phần mềm đơn lẻ. Nó là một **hệ sinh thái EDA** gồm nhiều công cụ chuyên trách:
 
 ```text
